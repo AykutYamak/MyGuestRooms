@@ -123,7 +123,17 @@
                                           placeholder="Допълнителни изисквания, коментари или бележки от госта..."></textarea>
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
-
+                            <div>
+                                <h5 class="form-label mb-3 pb-2 border-bottom border-2">
+                                    Статус
+                                </h5>
+                                <select asp-for="Status" class="form-select shadow-sm rounded-3">
+                                    @foreach (var item in ViewBag.Statuses)
+                                    {
+                                        <option value="@item.Value" selected="@(item.Value == Model.Status.ToString() ? "selected" : null)">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
                             <div class="button-group mt-4">
                                 <button type="submit" class="btn-primary-custom">
                                     Запази промените

@@ -1,4 +1,5 @@
-﻿using GuestHouseRoomsTracker.Core.IServices;
+﻿using DNBarbershop.Models.EnumClasses;
+using GuestHouseRoomsTracker.Core.IServices;
 using GuestHouseRoomsTracker.Core.Services;
 using GuestHouseRoomsTracker.Models.Entities;
 using GuestHouseRoomsTracker.Models.Reservations;
@@ -75,7 +76,7 @@ namespace GuestHouseRoomsTracker.Controllers
             {
                 CheckInDate = filter.CheckInDate,
                 CheckOutDate = filter.CheckOutDate,
-                Reservations = await reservations.OrderBy(r => r.CheckInDate).ThenBy(r => r.CheckOutDate).ToListAsync()
+                Reservations = await reservations.OrderBy(r => r.Status).ThenBy(r => r.CheckInDate).ThenBy(r => r.CheckOutDate).ToListAsync()
             };
             
             return View(model);
@@ -143,7 +144,7 @@ namespace GuestHouseRoomsTracker.Controllers
 
             bool conflictExists = await _reservationService.GetAll()
                 .AnyAsync(r => r.RoomId == room.Id &&
-                        (r.CheckInDate < model.CheckOutDate ||
+                        (r.CheckInDate < model.CheckOutDate &&
                         r.CheckOutDate > model.CheckInDate));
 
             if (conflictExists)
@@ -180,6 +181,12 @@ namespace GuestHouseRoomsTracker.Controllers
 
             var rooms = _roomService.GetAll().ToList();
             var room = rooms.FirstOrDefault(r => r.Id == reservation.RoomId);
+
+            ViewBag.Statuses = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "1", Text = "Предстояща"},
+                new SelectListItem { Value = "3", Text = "Отменена"}
+            };
 
             var viewModel = new ReservationEditViewModel
             {
@@ -239,6 +246,12 @@ namespace GuestHouseRoomsTracker.Controllers
                     existingReservation.Status != DNBarbershop.Models.EnumClasses.ReservationStatus.Cancelled && existingReservation.Id != model.Id)
                 {
                     TempData["error"] = $"Стая {room.RoomNumber} е резервирана за част от избрания период. Моля изберете други дати.";
+
+                    ViewBag.Statuses = new List<SelectListItem>
+                    {
+                        new SelectListItem { Value = "1", Text = "Предстояща"},
+                        new SelectListItem { Value = "3", Text = "Отменена"}
+                    };
                     model.Rooms = _roomService.GetAll().ToList();
                     return View(model);
                 }

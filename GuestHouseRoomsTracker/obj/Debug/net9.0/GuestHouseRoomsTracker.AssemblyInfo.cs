@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GuestHouseRoomsTracker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f3be0eefe9c1a5fc602686bfb0caacff92a6a30")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b62523e317e54ef8f2d6d68ba0975131df197b85")]
 [assembly: System.Reflection.AssemblyProductAttribute("GuestHouseRoomsTracker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GuestHouseRoomsTracker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
